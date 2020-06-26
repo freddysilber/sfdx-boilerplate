@@ -1,0 +1,23 @@
+{
+  "name": "sfdx-boilerplate",
+  "version": "1.0.0",
+  "description": "Store for boiler plate code for Cloud Coach implementations",
+  "main": "index.js",
+  "scripts": {
+    "seed:projects": "sfdx force:apex:execute -f seeds/seed-projects.apex",
+    "seed:freddys-test-project": "sfdx force:apex:execute -f seeds/seed-freddys-test-project.apex",
+    "install:cc_enterprise": "sfdx force:package:install -p 04t2K000000Scww",
+    "install:cc_connector": "sfdx force:package:install -p 04t4A000000Mm9h",
+    "install:cc_psa": "sfdx force:package:install -p 04t0f000000YWvC"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freddysilber/sfdx-boilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freddysilber/sfdx-boilerplate/issues"
+  },
+  "homepage": "https://github.com/freddysilber/sfdx-boilerplate#readme"
+}
