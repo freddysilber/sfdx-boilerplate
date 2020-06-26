@@ -1,9 +1,3 @@
-# Salesforce App
+# SFDX Boilerplate
 
-## Dev, Build and Test
-
-## Resources
-
-## Description of Files and Directories
-
-## Issues
+Store for boiler plate code for Cloud Coach implementations
