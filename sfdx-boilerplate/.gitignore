@@ -1,0 +1,12 @@
+# Ignore Salesforce folders and config files
+.sfdx
+.sfdx/*
+**/profiles/**
+.forceignore
+# Ignore npm dependencies
+node_modules
+# Ignore IDE things
+.vscode
+config
+#  Ignore Mac OS config
+.DS_Store
