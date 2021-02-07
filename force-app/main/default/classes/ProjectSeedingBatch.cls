@@ -1,6 +1,6 @@
-public with sharing class ProjectSeedingBatch implements Database.Batchable<sObject>, Database.Stateful {
+public with sharing class ProjectSeedingBatch implements Database.Batchable<SObject>, Database.Stateful {
 
-	public Arguments args{ get; set; }
+	public Arguments args { get; set; }
 	
 	public ProjectSeedingBatch(Arguments args) {
 		this.args = args;
@@ -13,12 +13,12 @@ public with sharing class ProjectSeedingBatch implements Database.Batchable<sObj
 	private static Date safeToday = ProjectSeedingBatch.getSafeDate(0);
 	private Id previousId;
 
-	public Iterable<sObject> start(Database.BatchableContext BC) {
+	public Iterable<SObject> start(Database.BatchableContext bc) {
 		project_cloud__Project__c proj = generateProject(args.projectName);
 		insert proj;
-		List<project_cloud__Project_Phase__c> phases = generatePhases(proj.Id, args.phasesCount);
+		project_cloud__Project_Phase__c[] phases = generatePhases(proj.Id, args.phasesCount);
 		insert phases;
-		List<project_cloud__Project_Task__c> tasks = new List<project_cloud__Project_Task__c>();
+		project_cloud__Project_Task__c[] tasks = new project_cloud__Project_Task__c[]{};
 		for (project_cloud__Project_Phase__c p : phases) {
 			for (Integer i = 0; i < args.tasksCount; i++) {
 				tasks.add(generateProjectTask(p.Id, false));
@@ -27,25 +27,25 @@ public with sharing class ProjectSeedingBatch implements Database.Batchable<sObj
 		return tasks;
 	}
 	 
-	public void execute(Database.BatchableContext BC, List<project_cloud__Project_Task__c> tasks) {
-	   insert tasks;
-	   if (args.withDependencies) {
-		List<project_cloud__Project_Task_Dependency__c> deps = new List<project_cloud__Project_Task_Dependency__c>();
-		for (project_cloud__Project_Task__c t : tasks) {
-			if (previousId != null) {
-				deps.add(new project_cloud__Project_Task_Dependency__c(
-					project_cloud__Parent__c = previousId, 
-					project_cloud__Child__c = t.Id
-				));
+	public void execute(Database.BatchableContext bc, project_cloud__Project_Task__c[] tasks) {
+		insert tasks;
+		if (args.withDependencies) {
+			project_cloud__Project_Task_Dependency__c[] deps = new project_cloud__Project_Task_Dependency__c[]{};
+			for (project_cloud__Project_Task__c t : tasks) {
+				if (previousId != null) {
+					deps.add(new project_cloud__Project_Task_Dependency__c(
+						project_cloud__Parent__c = previousId, 
+						project_cloud__Child__c = t.Id
+					));
+				}
+				previousId = t.Id;
 			}
-			previousId = t.Id;
+			insert deps;
 		}
-		insert deps;
-	   }
-	   //ProjectSeeding.generateSampleGanttLoad(args.projectsCount, args.phasesCount, args.tasksCount, args.prefix, args.withDependencies, args.longTasks);
+		//ProjectSeeding.generateSampleGanttLoad(args.projectsCount, args.phasesCount, args.tasksCount, args.prefix, args.withDependencies, args.longTasks);
 	}   
 	 
-	public void finish(Database.BatchableContext BC) {
+	public void finish(Database.BatchableContext bc) {
 		// execute any post-processing operations
   	}
 
@@ -64,7 +64,7 @@ public with sharing class ProjectSeedingBatch implements Database.Batchable<sObj
 	}
 
 	private List<project_cloud__Project_Phase__c> generatePhases(Id projectId, Integer count) {
-		List<project_cloud__Project_Phase__c> phases = new List<project_cloud__Project_Phase__c>();
+		project_cloud__Project_Phase__c[] phases = new project_cloud__Project_Phase__c[]{};
 		for (Integer i = 0; i < count; i++) {
 			phases.add(new project_cloud__Project_Phase__c(
 				Name = 'Phase ' + (i + 1), 
@@ -117,17 +117,9 @@ public with sharing class ProjectSeedingBatch implements Database.Batchable<sObj
 		Integer diffInRange = endNum - startNum;
 		Integer randomNum = Math.mod(Math.round(Math.random() * diffInRange + 1), diffInRange);
 		if (addSubFlag) {
-			if (diffInRange > 1) {
-				returnValue = startNum + randomNum;
-			} else {
-				returnValue = startNum;
-			}
+			returnValue = diffInRange > 1 ? startNum + randomNum : startNum;
 		} else {
-			if (diffInRange > 1) {
-				returnValue = endNum - randomNum;
-			} else {
-				returnValue = endNum;
-			}
+			returnValue = diffInRange > 1 ? endNum - randomNum : endNum;
 		}
 		return returnValue;
 	}    
