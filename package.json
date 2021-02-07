@@ -1,7 +1,7 @@
 {
   "name": "sfdx-boilerplate",
   "version": "1.0.0",
-  "description": "Store for boiler plate code for Cloud Coach implementations",
+  "description": "Store for boiler plate code for SFDX Projects",
   "main": "index.js",
   "scripts": {
     "seed:projects": "sfdx force:apex:execute -f seeds/seed-projects.apex",
