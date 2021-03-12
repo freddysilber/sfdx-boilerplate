@@ -1,3 +1,4 @@
+Boolean isTemplate = true;
 Date startDate = System.today().toStartOfWeek().addDays(1);
 String[] taskColors = new String[]{
 	'Magenta', 
@@ -12,7 +13,8 @@ String[] taskColors = new String[]{
 
 project_cloud__Project__c project = new project_cloud__Project__c(
 	Name = 'Freddys Project',
-	project_cloud__Units__c = 'Duration'
+	project_cloud__Units__c = 'Duration',
+	project_cloud__IsTemplate__c = isTemplate
 );
 insert project;
 
