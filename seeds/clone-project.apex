@@ -1,4 +1,8 @@
-delete [SELECT Id FROM Project__c WHERE Id != 'a0pN0000006n0tpIAA'];
+delete [
+	SELECT Id 
+	FROM Project__c 
+	WHERE Id != 'a0pN0000006n0tpIAA'
+];
 
 Project__c project = [
 	SELECT 
