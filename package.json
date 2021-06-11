@@ -6,7 +6,7 @@
   "scripts": {
     "seed:projects": "sfdx force:apex:execute -f seeds/seed-projects.apex",
     "seed:freddys-test-project": "sfdx force:apex:execute -f seeds/seed-freddys-test-project.apex",
-    "install:cc_enterprise": "sfdx force:package:install -p 04t2K000000Scww",
+    "install:cc_enterprise": "sfdx force:package:install -p 04t2K000000cd37",
     "install:cc_connector": "sfdx force:package:install -p 04t4A000000Mm9h",
     "install:cc_psa": "sfdx force:package:install -p 04t0f000000YWvC"
   },
